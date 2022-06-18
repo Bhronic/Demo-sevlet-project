@@ -94,16 +94,21 @@ public class LoginServlet extends HttpServlet {
 
 			ResultSet rs = ps1.executeQuery();
 			while (rs.next()) {
-				pw.println("<html>" + "<head>" + "<style> tr,th, td {\r\n" + " border: 1px solid #f7a20c;" + "}</style>"
+				pw.println("<html>"+ "<head>"
+						+ " <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js\"></script>\r\n"
+						+ "<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css\">"
+						+ "  <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js\"></script>"
+						+ "<style> tr,th, td {\r\n" + " border: 1px solid #f7a20c;" + "}</style>"
 						+ "</head>" + "<body style=\"background-color:#face97;\">");
 				if (rs.getString(2).toString().equals(userEmail)) {
 
-					pw.println("" + "<table  style=\"padding-left: 250px; \" width=\"80%\">" + "<tr>"
-							+ "<td width=50%><label>Welcome " + rs.getString(3) + "</label></td>"
-							+ "<td width=50% style=\"text-align:right\"><a href=\"/Demo/login\">Logout</a></td>"
-							+ "</tr>" + "</table>");
+					pw.println("<div class=\"container-fluid\"><div class=\"row\">\r\n"
+							+ "  <div class=\"col-sm-4\">Welcome " + rs.getString(3) + "</div>\r\n"
+							+ "  <div class=\"col-sm-8\"><a href=\"/Demo/login\"><button type=\"button\" class=\"btn btn-success\">Logout</button></a></div>\r\n"
+							+ "</div></div>");
 				}
-				
+				//<a href=\"/Demo/login\">Logout</a>
+				//Welcome " + rs.getString(3) + "
 				PreparedStatement ps = con.prepareStatement("select * from user");
 				ResultSet result = ps.executeQuery();
 				pw.println("" + "<table  style=\"padding-left: 250px; \" width=\"80%\">" );
