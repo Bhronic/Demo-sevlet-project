@@ -94,31 +94,32 @@ public class LoginServlet extends HttpServlet {
 
 			ResultSet rs = ps1.executeQuery();
 			while (rs.next()) {
-				pw.println("<html>"+ "<head>"
+				pw.println("<html>" + "<head>"
 						+ " <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js\"></script>\r\n"
-						+ "<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css\">"
+						+ " <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css\">\r\n"
+						+ "  <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js\"></script>\r\n"
 						+ "  <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js\"></script>"
-						+ "<style> tr,th, td {\r\n" + " border: 1px solid #f7a20c;" + "}</style>"
-						+ "</head>" + "<body style=\"background-color:#face97;\">");
+						+ "<style> tr,th, td {\r\n" + " border: 1px solid #f7a20c;" + "}</style>" + "</head>"
+						+ "<body style=\"background-color:#face97;\">");
 				if (rs.getString(2).toString().equals(userEmail)) {
 
 					pw.println("<div class=\"container-fluid\"><div class=\"row\">\r\n"
-							+ "  <div class=\"col-sm-4\">Welcome " + rs.getString(3) + "</div>\r\n"
-							+ "  <div class=\"col-sm-8\"><a href=\"/Demo/login\"><button type=\"button\" class=\"btn btn-success\">Logout</button></a></div>\r\n"
+							+ "  <div class=\"col-sm-8\">Welcome " + rs.getString(3) + "</div>\r\n"
+							+ "  <div class=\"col-sm-4\"><a href=\"/Demo/login\"><button type=\"button\" class=\"btn btn-success\">Logout</button></a></div>\r\n"
 							+ "</div></div>");
 				}
-				//<a href=\"/Demo/login\">Logout</a>
-				//Welcome " + rs.getString(3) + "
+				// <a href=\"/Demo/login\">Logout</a>
+				// Welcome " + rs.getString(3) + "
 				PreparedStatement ps = con.prepareStatement("select * from user");
 				ResultSet result = ps.executeQuery();
-				pw.println("" + "<table  style=\"padding-left: 250px; \" width=\"80%\">" );
-				pw.println("<tr><th>Id</th><th>Email Id</th><th>Name</th><th colspan=\"2\">Action</th></tr>");
-				
+				pw.println("" + "<table  class=\"table");
+				pw.println("<tr class=\"info\" ><th>Id</th><th>Email Id</th><th>Name</th><th colspan=\"2\">Action</th></tr>");
+
 				while (result.next()) {
-					pw.println("<tr><td>"+result.getInt(1)+"</td><td>"+result.getString(2)+
-							"</td><td>"+result.getString(3)
-							+"</td><td><a href=\"/Demo/edit?id="+result.getInt(1)+"\">edit</a></td>"
-							+ "<td><a href=\"/Demo/delete?id="+result.getInt(1)+"\">delete</a></td></tr>");
+					pw.println("<tr class=\"success\"><td>" + result.getInt(1) + "</td><td>" + result.getString(2) + "</td><td>"
+							+ result.getString(3) + "</td><td><a href=\"/Demo/edit?id=" + result.getInt(1)
+							+ "\">edit</a></td>" + "<td><a href=\"/Demo/delete?id=" + result.getInt(1)
+							+ "\">delete</a></td></tr>");
 				}
 				pw.println("</table>");
 				pw.println("</body></html>");
