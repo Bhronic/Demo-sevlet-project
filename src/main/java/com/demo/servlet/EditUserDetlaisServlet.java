@@ -58,7 +58,7 @@ public class EditUserDetlaisServlet extends HttpServlet {
 			int value = ps.executeUpdate();
 			
 			pw.println("<center>"+value+" user record updated.</center>");
-			RequestDispatcher rd = request.getRequestDispatcher("login");
+			RequestDispatcher rd = request.getRequestDispatcher("welcome?id="+userId);
 			rd.include(request, response);
 			
 		} catch (ClassNotFoundException | SQLException e) {
