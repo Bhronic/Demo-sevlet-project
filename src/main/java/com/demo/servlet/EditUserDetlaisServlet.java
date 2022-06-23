@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -45,7 +46,9 @@ public class EditUserDetlaisServlet extends HttpServlet {
 		String name = request.getParameter("name");
 		String password = request.getParameter("password");
 		Connection con;
-		
+		ServletContext context = getServletContext();
+		String userName = (String)context.getAttribute("userName");
+		System.out.println(context.getAttribute("userName"));
 		try {
 			con =new  DatabaseConnection().getDatabadeConnection();
 			
@@ -58,8 +61,9 @@ public class EditUserDetlaisServlet extends HttpServlet {
 			int value = ps.executeUpdate();
 			
 			pw.println("<center>"+value+" user record updated.</center>");
-			RequestDispatcher rd = request.getRequestDispatcher("welcome?id="+userId);
+			RequestDispatcher rd = request.getRequestDispatcher("userdtls?id="+userId+"&name="+userName);
 			rd.include(request, response);
+			//response.sendRedirect("http://localhost:8080/Demo/welcome?id="+userId+"&name="+userName);
 			
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
