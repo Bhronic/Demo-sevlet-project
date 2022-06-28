@@ -40,7 +40,6 @@ public class UserEditResponseServlet extends HttpServlet {
 
 		int userId = Integer.parseInt(request.getParameter("id"));
 		String name = request.getParameter("name");
-		System.out.println(name+"----- "+userId);
 		Connection con;
 		try {
 			con = new DatabaseConnection().getDatabadeConnection();
