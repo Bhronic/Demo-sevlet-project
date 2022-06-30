@@ -11,6 +11,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -69,8 +70,10 @@ public class WelcomeServlet extends HttpServlet {
 								+ "<style> tr,th, td {\r\n" + " border: 1px solid #f7a20c;" + "}</style>" + "</head>"
 								+ "<body style=\"background-color:#face97;\">");
 						if (rs.getString(2).toString().equals(userEmail)) {
-							ServletContext servletContext = getServletContext();
-							servletContext.setAttribute("userName", rs.getString(3));
+							Cookie ck = new Cookie("userName",rs.getString(3));
+							response.addCookie(ck);
+							Cookie ck1 = new Cookie("userId",rs.getString(1));
+							response.addCookie(ck1);
 							pw.println("<div class=\"container-fluid\"><div class=\"row\">\r\n"
 									+ "  <div class=\"col-sm-8\">Welcome " + rs.getString(3) + "</div>\r\n"
 									+ "  <div class=\"col-sm-4\"><a href=\"/Demo/login\"><button type=\"button\" class=\"btn btn-success\">Logout</button></a></div>\r\n"

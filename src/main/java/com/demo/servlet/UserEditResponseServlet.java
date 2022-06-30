@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,8 +39,21 @@ public class UserEditResponseServlet extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter pw = response.getWriter();
 
-		int userId = Integer.parseInt(request.getParameter("id"));
-		String name = request.getParameter("name");
+		Integer userId = null;
+		String name = null;
+		
+		Cookie[] ck = request.getCookies();
+		
+		for (Cookie c : ck) {
+			if(c.getName().equalsIgnoreCase("userName")){
+				name = c.getValue();// (String)context.getAttribute("userName");
+				System.out.println(c.getValue());
+			}
+			if(c.getName().equals("userId")) {
+				userId  = Integer.parseInt(c.getValue());
+				System.out.println(c.getValue());
+			}
+		}
 		Connection con;
 		try {
 			con = new DatabaseConnection().getDatabadeConnection();
