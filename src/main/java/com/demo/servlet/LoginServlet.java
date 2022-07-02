@@ -15,8 +15,11 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.db.connection.DatabaseConnection;
+import com.demo.sessiontracking.Page;
+import com.demo.sessiontracking.SessionTracking;
 
 /**
  * Servlet implementation class NewServlet
@@ -42,16 +45,23 @@ public class LoginServlet extends HttpServlet {
 		try {
 			
 			
-		Cookie ck = new Cookie("userName", "");
-		ck.setMaxAge(0);
-		Cookie ck1 = new Cookie("userId", "");
-		ck1.setMaxAge(0);
-		response.addCookie(ck);
-		response.addCookie(ck1);
+			HttpSession session = request.getSession();
+			session.invalidate();
+			
+			
+/*
+ * Cookies base call
+ * */		
+//		Cookie ck = new Cookie("userName", "");
+//		ck.setMaxAge(0);
+//		Cookie ck1 = new Cookie("userId", "");
+//		ck1.setMaxAge(0);
+//		response.addCookie(ck);
+//		response.addCookie(ck1);
 		response.setContentType("text/html");
 		}catch (Exception e) {
 			PrintWriter pw = response.getWriter();	
-			pw.println("cookies is expired.");
+			pw.println("<center>Session is expired.</center>");
 			RequestDispatcher rd = request.getRequestDispatcher("login");
 			rd.include(request, response);
 		}

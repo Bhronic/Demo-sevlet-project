@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -14,8 +15,11 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.db.connection.DatabaseConnection;
+import com.demo.sessiontracking.Page;
+import com.demo.sessiontracking.SessionTracking;
 
 /**
  * Servlet implementation class EditUserDetlaisServlet
@@ -40,6 +44,19 @@ public class EditUserDetlaisServlet extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter pw = response.getWriter();
 		
+		String userEmailId = null;
+		
+		HttpSession session = request.getSession(false);
+		userEmailId = session.getAttribute("userEmailId").toString();
+		
+		try {
+			new SessionTracking().sessionTracking(userEmailId, session.getId(),
+					new Date(session.getCreationTime()).toString(),
+					new Date(session.getLastAccessedTime()).toString(), Page.USER_EDIT.toString());
+			session.setMaxInactiveInterval(3000);;
+		} catch (ClassNotFoundException | SQLException e1) {
+			e1.printStackTrace();
+		}
 		
 		
 		int userId = Integer.parseInt(request.getParameter("id"));

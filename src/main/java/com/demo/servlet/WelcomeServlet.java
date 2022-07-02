@@ -1,11 +1,13 @@
 package com.demo.servlet;
 
+import java.awt.print.Pageable;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -18,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.db.connection.DatabaseConnection;
+import com.demo.sessiontracking.Page;
+import com.demo.sessiontracking.SessionTracking;
 
 /**
  * Servlet implementation class WelcomeServlet
@@ -76,7 +80,12 @@ public class WelcomeServlet extends HttpServlet {
 							HttpSession session = request.getSession();
 							session.setAttribute("userName",rs.getString(3));
 							session.setAttribute("userId",rs.getString(1));
+							session.setAttribute("userEmailId",rs.getString(2));
 							
+							SessionTracking sessionTracking = new SessionTracking();
+							sessionTracking.sessionTracking(rs.getString(2), session.getId(),
+									new Date(session.getCreationTime()).toString(),
+									new Date(session.getLastAccessedTime()).toString(), Page.WELCOME.toString());
 //							Cookie ck = new Cookie("userName",rs.getString(3));
 //							response.addCookie(ck);
 //							Cookie ck1 = new Cookie("userId",rs.getString(1));
