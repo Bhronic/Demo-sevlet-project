@@ -47,14 +47,14 @@ public class EditUserDetlaisServlet extends HttpServlet {
 		String name = request.getParameter("name");
 		String password = request.getParameter("password");
 		Connection con;
-		Cookie[] ck = request.getCookies();
-		String userName = null;
-		for (Cookie c : ck) {
-			if(c.getName().equalsIgnoreCase("userName")){
-				userName = c.getValue();// (String)context.getAttribute("userName");
-				System.out.println(c.getValue());
-			}
-		}
+//		Cookie[] ck = request.getCookies();
+//		String userName = null;
+//		for (Cookie c : ck) {
+//			if(c.getName().equalsIgnoreCase("userName")){
+//				userName = c.getValue();// (String)context.getAttribute("userName");
+//				System.out.println(c.getValue());
+//			}
+//		}
 		try {
 			con =new  DatabaseConnection().getDatabadeConnection();
 			

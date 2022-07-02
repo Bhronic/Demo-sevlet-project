@@ -14,6 +14,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.db.connection.DatabaseConnection;
 
@@ -42,18 +43,28 @@ public class UserEditResponseServlet extends HttpServlet {
 		Integer userId = null;
 		String name = null;
 		
-		Cookie[] ck = request.getCookies();
-		
-		for (Cookie c : ck) {
-			if(c.getName().equalsIgnoreCase("userName")){
-				name = c.getValue();// (String)context.getAttribute("userName");
-				System.out.println(c.getValue());
-			}
-			if(c.getName().equals("userId")) {
-				userId  = Integer.parseInt(c.getValue());
-				System.out.println(c.getValue());
-			}
+		//Cookie[] ck = request.getCookies();
+		try {
+			HttpSession session = request.getSession(false);
+			userId = Integer.parseInt((session.getAttribute("userId").toString()));
+			name = session.getAttribute("userName").toString();
+//		for (Cookie c : ck) {
+//			if(c.getName().equalsIgnoreCase("userName")){
+//				name = c.getValue();// (String)context.getAttribute("userName");
+//				System.out.println(c.getValue());
+//			}
+//			if(c.getName().equals("userId")) {
+//				userId  = Integer.parseInt(c.getValue());
+//				System.out.println(c.getValue());
+//			}
+//		}
+		}catch (Exception e) {
+			PrintWriter pw1 = response.getWriter();	
+			pw1.println("cookies is expired.");
+			RequestDispatcher rd = request.getRequestDispatcher("login");
+			rd.include(request, response);
 		}
+		
 		Connection con;
 		try {
 			con = new DatabaseConnection().getDatabadeConnection();

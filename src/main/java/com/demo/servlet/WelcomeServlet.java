@@ -15,6 +15,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.db.connection.DatabaseConnection;
 
@@ -70,12 +71,21 @@ public class WelcomeServlet extends HttpServlet {
 								+ "<style> tr,th, td {\r\n" + " border: 1px solid #f7a20c;" + "}</style>" + "</head>"
 								+ "<body style=\"background-color:#face97;\">");
 						if (rs.getString(2).toString().equals(userEmail)) {
-							Cookie ck = new Cookie("userName",rs.getString(3));
-							response.addCookie(ck);
-							Cookie ck1 = new Cookie("userId",rs.getString(1));
-							response.addCookie(ck1);
+							
+							// using http session
+							HttpSession session = request.getSession();
+							session.setAttribute("userName",rs.getString(3));
+							session.setAttribute("userId",rs.getString(1));
+							
+//							Cookie ck = new Cookie("userName",rs.getString(3));
+//							response.addCookie(ck);
+//							Cookie ck1 = new Cookie("userId",rs.getString(1));
+//							response.addCookie(ck1);
 							pw.println("<div class=\"container-fluid\"><div class=\"row\">\r\n"
 									+ "  <div class=\"col-sm-8\">Welcome " + rs.getString(3) + "</div>\r\n"
+									+ "  <div class=\"col-sm-8\">Login time " + session.getCreationTime() + "</div>\r\n"
+									+ "  <div class=\"col-sm-8\">Login time " + session.getId() + "</div>\r\n"
+									+ "  <div class=\"col-sm-8\">Login time " + session.getLastAccessedTime() + "</div>\r\n"
 									+ "  <div class=\"col-sm-4\"><a href=\"/Demo/login\"><button type=\"button\" class=\"btn btn-success\">Logout</button></a></div>\r\n"
 									+ "</div></div>");
 						}
