@@ -112,6 +112,26 @@ public class WelcomeServlet extends HttpServlet {
 									+ "\">delete</a></td></tr>");
 						}
 						pw.println("</table>");
+						
+						/*
+						 * pagination login need to improve.
+						 * */
+						PreparedStatement ps2 = con.prepareStatement("select count(*) from user");
+						ResultSet resultSet = ps2.executeQuery();
+						pw.println("<center><table><tr>");
+						
+						while (resultSet.next()) {
+							int count = 1;
+							int limit = 2;
+							int value = resultSet.getInt(1)/2;
+							while(value != 1) {
+							pw.println("<td style=\"padding: 15px;\"><a href=\"ViewServlet?page=1\">"+count+"</a> </td>");
+							count++;
+							value = value;
+							}
+						}
+						
+						pw.println("</tr></table></center>");
 						pw.println("</body></html>");
 					}
 				} catch (ClassNotFoundException | SQLException e) {
