@@ -56,7 +56,7 @@ public class WelcomeServlet extends HttpServlet {
 
 				String userEmail = request.getParameter("email");
 				String password = request.getParameter("password");
-
+				int totalRecords = 3;
 				Connection con;
 				try {
 					con = new DatabaseConnection().getDatabadeConnection();
@@ -92,15 +92,12 @@ public class WelcomeServlet extends HttpServlet {
 //							response.addCookie(ck1);
 							pw.println("<div class=\"container-fluid\"><div class=\"row\">\r\n"
 									+ "  <div class=\"col-sm-8\">Welcome " + rs.getString(3) + "</div>\r\n"
-									+ "  <div class=\"col-sm-8\">Login time " + session.getCreationTime() + "</div>\r\n"
-									+ "  <div class=\"col-sm-8\">Login time " + session.getId() + "</div>\r\n"
-									+ "  <div class=\"col-sm-8\">Login time " + session.getLastAccessedTime() + "</div>\r\n"
 									+ "  <div class=\"col-sm-4\"><a href=\"/Demo/login\"><button type=\"button\" class=\"btn btn-success\">Logout</button></a></div>\r\n"
 									+ "</div></div>");
 						}
 						// <a href=\"/Demo/login\">Logout</a>
 						// Welcome " + rs.getString(3) + "
-						PreparedStatement ps = con.prepareStatement("select * from user");
+						PreparedStatement ps = con.prepareStatement("select * from user limit 0,"+totalRecords);
 						ResultSet result = ps.executeQuery();
 						pw.println("" + "<table  class=\"table");
 						pw.println("<tr class=\"info\" ><th>Id</th><th>Email Id</th><th>Name</th><th colspan=\"2\">Action</th></tr>");
@@ -122,12 +119,16 @@ public class WelcomeServlet extends HttpServlet {
 						
 						while (resultSet.next()) {
 							int count = 1;
-							int limit = 2;
-							int value = resultSet.getInt(1)/2;
-							while(value != 1) {
-							pw.println("<td style=\"padding: 15px;\"><a href=\"ViewServlet?page=1\">"+count+"</a> </td>");
+							int value = (resultSet.getInt(1)/totalRecords);
+							int reminder = resultSet.getInt(1)%totalRecords;
+							while(value >= count) {
+								
+							pw.println("<td style=\"padding: 15px;\"><a href=\"userdtls?page="+count+"\">"+count+"</a> </td>");
 							count++;
-							value = value;
+							}
+							if(reminder !=0) {
+								pw.println("<td style=\"padding: 15px;\"><a href=\"userdtls?page="+count+"\">"+count+"</a> </td>");
+								count++;	
 							}
 						}
 						

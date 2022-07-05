@@ -76,7 +76,15 @@ public class UserEditResponseServlet extends HttpServlet {
 
 		Connection con;
 		try {
+			int totalRecords = 3;
+			int pageNo = Integer.parseInt(request.getParameter("page"));
 			con = new DatabaseConnection().getDatabadeConnection();
+			
+			int offsetPageNo = 0;
+			if(pageNo == 0) {}
+			else {
+				offsetPageNo = (pageNo-1)*totalRecords;
+			}
 
 			PreparedStatement ps1 = con.prepareStatement("select * from user where id = ?");
 			ps1.setInt(1, userId);
@@ -98,7 +106,8 @@ public class UserEditResponseServlet extends HttpServlet {
 
 				// <a href=\"/Demo/login\">Logout</a>
 				// Welcome " + rs.getString(3) + "
-				PreparedStatement ps = con.prepareStatement("select * from user");
+				
+				PreparedStatement ps = con.prepareStatement("select * from user limit "+offsetPageNo+","+totalRecords);
 				ResultSet result = ps.executeQuery();
 				pw.println("" + "<table  class=\"table");
 				pw.println(
@@ -111,6 +120,27 @@ public class UserEditResponseServlet extends HttpServlet {
 							+ "\">delete</a></td></tr>");
 				}
 				pw.println("</table>");
+				
+				PreparedStatement ps2 = con.prepareStatement("select count(*) from user limit 0,"+totalRecords);
+				ResultSet resultSet = ps2.executeQuery();
+				pw.println("<center><table><tr>");
+				
+				while (resultSet.next()) {
+					int count = 1;
+					int value = (resultSet.getInt(1)/totalRecords);
+					int reminder = resultSet.getInt(1)%totalRecords;
+					while(value >= count) {
+						
+					pw.println("<td style=\"padding: 15px;\"><a href=\"userdtls?page="+count+"\">"+count+"</a> </td>");
+					count++;
+					}
+					if(reminder !=0) {
+						pw.println("<td style=\"padding: 15px;\"><a href=\"userdtls?page="+count+"\">"+count+"</a> </td>");
+						count++;	
+					}
+				}
+				
+				pw.println("</tr></table></center>");
 				pw.println("</body></html>");
 			}
 		} catch (ClassNotFoundException | SQLException e) {
