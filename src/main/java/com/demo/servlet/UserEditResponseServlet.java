@@ -106,6 +106,18 @@ public class UserEditResponseServlet extends HttpServlet {
 
 				// <a href=\"/Demo/login\">Logout</a>
 				// Welcome " + rs.getString(3) + "
+				pw.println("<center><table><tr>");
+				
+				pw.println("<label for=\"cars\">Choose a page size:</label>\r\n"
+						+ "\r\n"
+						+ "<select name=\"size\" id=\"size\">\r\n"
+						+ "  <option value=\"2\">2</option>\r\n"
+						+ "  <option value=\"3\">3</option>\r\n"
+						+ "  <option value=\"5\">5</option>\r\n"
+						+ "  <option value=\"all\">all</option>\r\n"
+						+ "</select>");;
+				
+				pw.println("</tr></table></center>");
 				
 				PreparedStatement ps = con.prepareStatement("select * from user limit "+offsetPageNo+","+totalRecords);
 				ResultSet result = ps.executeQuery();
