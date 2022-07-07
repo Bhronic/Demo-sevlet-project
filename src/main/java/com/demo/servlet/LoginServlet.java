@@ -83,7 +83,7 @@ public class LoginServlet extends HttpServlet {
 				+ ".signin {" + "  background-color: #f1f1f1;" + "  text-align: center;" + "}" + "</style>" + "</head>"
 				+ "<title>demo page</title>" + "<body style=\"background-color:#face97;\">");
 
-		pw.println("<form action=\"/Demo/welcome\" method=\"post\">" + " <div style=\"padding-left: 450px;\">"
+		pw.println("<form action=\"/Demo/welcome.jsp\" method=\"post\">" + " <div style=\"padding-left: 450px;\">"
 				+ " <div class=\"container\">" + "    <h1>Login</h1>"
 
 				+ "    <hr>" + "" + "    <label for=\"email\"><b>Email</b></label>"

@@ -71,6 +71,11 @@ public class WelcomeServlet extends HttpServlet {
 					
 					while (rs.next()) {
 						pw.println("<html>" + "<head>"
+								+ "<script>"
+								+ "function getValue(val){\r\n"
+								+ "   document.getElementById('size').innerHTML = val;\r\n"
+								+ "}"
+								+ "</script>"
 								+ " <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js\"></script>\r\n"
 								+ " <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css\">\r\n"
 								+ "  <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js\"></script>\r\n"
@@ -105,13 +110,14 @@ public class WelcomeServlet extends HttpServlet {
 						
 						pw.println("<label for=\"cars\">Choose a page size:</label>\r\n"
 								+ "\r\n"
-								+ "<select name=\"size\" id=\"size\">\r\n"
+								+ "<select onchange=\"getValue(this.value)\">\r\n"
 								+ "  <option value=\"2\">2</option>\r\n"
 								+ "  <option value=\"3\">3</option>\r\n"
 								+ "  <option value=\"5\">5</option>\r\n"
 								+ "  <option value=\"all\">all</option>\r\n"
-								+ "</select>");;
-						
+								+ "</select>");
+								
+												
 						pw.println("</tr></table></center>");
 						PreparedStatement ps = con.prepareStatement("select * from user limit 0,"+totalRecords);
 						ResultSet result = ps.executeQuery();

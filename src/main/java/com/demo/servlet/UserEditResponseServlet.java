@@ -43,7 +43,7 @@ public class UserEditResponseServlet extends HttpServlet {
 			throws ServletException, IOException {
 		response.setContentType("text/html");
 		PrintWriter pw = response.getWriter();
-
+		pw.println(request.getParameter("size"));
 		Integer userId = null;
 		String name = null;
 		String emailId = null;
