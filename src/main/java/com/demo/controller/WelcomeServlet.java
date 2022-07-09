@@ -1,4 +1,4 @@
-package com.demo.servlet;
+package com.demo.controller;
 
 import java.awt.print.Pageable;
 import java.io.IOException;

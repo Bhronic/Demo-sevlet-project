@@ -1,4 +1,4 @@
-package com.demo.servlet;
+package com.demo.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
