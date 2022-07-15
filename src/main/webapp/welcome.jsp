@@ -1,6 +1,6 @@
 <%@page import="com.demo.model.User"%>
-<%@ page errorPage="error.jsp" language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"
+<%@ page errorPage="error.jsp" language="java"
+	contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"
 	import="java.util.*,java.sql.*,com.db.connection.*"%>
 <!DOCTYPE html>
 <html>
@@ -24,19 +24,19 @@ tr, th, td { "
 	<div class="container-fluid">
 		<%
 		response.setContentType("text/html");
-				
-				//HttpSession session1 = request.getSession(false);
-				//String name=(String)session.getAttribute("user");  
-				//out.print("Hello "+session.getAttribute("user").toString());  
-				//User user = new User(Integer.parseInt((session.getAttribute("id").toString())),
-				//session.getAttribute("name").toString(), session.getAttribute("emailId").toString());
-				//out.println(user.getName() + "  " + user.getEmailId());
-				
-				String userEmail = request.getParameter("email");
-				String password = request.getParameter("password");
 
-				Connection con;
-				try {
+		//HttpSession session1 = request.getSession(false);
+		//String name=(String)session.getAttribute("user");  
+		//out.print("Hello "+session.getAttribute("user").toString());  
+		//User user = new User(Integer.parseInt((session.getAttribute("id").toString())),
+		//session.getAttribute("name").toString(), session.getAttribute("emailId").toString());
+		//out.println(user.getName() + "  " + user.getEmailId());
+
+		String userEmail = request.getParameter("email");
+		String password = request.getParameter("password");
+
+		Connection con;
+		try {
 			con = new DatabaseConnection().getDatabadeConnection();
 
 			PreparedStatement ps1 = con.prepareStatement("select * from user where email_id = ? and password = ?");
@@ -49,7 +49,8 @@ tr, th, td { "
 		%>
 		<div class="row">
 			<div class="col-sm-8">
-				Welcome <%=rs.getString(3)%></div>
+				Welcome
+				<%=rs.getString(3)%></div>
 			<div class="col-sm-4">
 				<a href="/Demo/login"><button type="button"
 						class="btnbtn-success">Logout</button></a>
@@ -62,7 +63,7 @@ tr, th, td { "
 		ResultSet result = ps.executeQuery();
 		%>
 		<center>
-			<table  class="table">
+			<table class="table">
 				<tr class="info">
 					<th>Id</th>
 					<th>Email Id</th>
@@ -77,8 +78,8 @@ tr, th, td { "
 					<td><%=result.getInt(1)%></td>
 					<td><%=result.getString(2)%></td>
 					<td><%=result.getString(3)%></td>
-					<td><a href="/Demo/edit?id=${result.getInt(1)}" >edit</a></td>
-					<td><a href="/Demo/delete?id="+<%=result.getInt(1)%>+">delete</a></td>
+					<td><a href="/Demo/edit?id=<%=result.getInt(1)%> ">edit</a></td>
+					<td><a href="/Demo/delete?id=<%=result.getInt(1)%>">delete</a></td>
 				</tr>
 				<%
 				}

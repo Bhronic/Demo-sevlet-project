@@ -8,17 +8,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+
 
 import com.db.connection.DatabaseConnection;
+import com.demo.model.User;
 import com.demo.sessiontracking.Page;
 import com.demo.sessiontracking.SessionTracking;
+
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class UserEditResponseServlet
@@ -54,9 +57,12 @@ public class UserEditResponseServlet extends HttpServlet {
 			name = session.getAttribute("userName").toString();
 			emailId = session.getAttribute("userEmailId").toString();
 			
-			new SessionTracking().sessionTracking(emailId, session.getId(),
+			User user = (User)session.getAttribute("user");
+			name = user.getEmailId();
+			
+			/*new SessionTracking().sessionTracking(emailId, session.getId(),
 					new Date(session.getCreationTime()).toString(),
-					new Date(session.getLastAccessedTime()).toString(), Page.USER_DETAIL.toString());
+					new Date(session.getLastAccessedTime()).toString(), Page.USER_DETAIL.toString());*/
 //		for (Cookie c : ck) {
 //			if(c.getName().equalsIgnoreCase("userName")){
 //				name = c.getValue();// (String)context.getAttribute("userName");
@@ -77,7 +83,8 @@ public class UserEditResponseServlet extends HttpServlet {
 		Connection con;
 		try {
 			int totalRecords = 3;
-			int pageNo = Integer.parseInt(request.getParameter("page"));
+			int pageNo = 1;
+//			int pageNo = Integer.parseInt(request.getParameter("page"));
 			con = new DatabaseConnection().getDatabadeConnection();
 			
 			int offsetPageNo = 0;

@@ -1,4 +1,4 @@
-package com.demo.contoller1;
+package com.demo.controller1;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -8,18 +8,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import com.db.connection.DatabaseConnection;
 import com.demo.model.User;
 import com.demo.sessiontracking.Page;
 import com.demo.sessiontracking.SessionTracking;
+
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class MVCLogin
@@ -27,27 +27,31 @@ import com.demo.sessiontracking.SessionTracking;
 @WebServlet("/mvclogin")
 public class MVCLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public MVCLogin() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public MVCLogin() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.setContentType("text/html");
 		PrintWriter pw = response.getWriter();
@@ -64,19 +68,20 @@ public class MVCLogin extends HttpServlet {
 			ps1.setString(2, password);
 
 			ResultSet rs = ps1.executeQuery();
-			
+
 			while (rs.next()) {
 				HttpSession session = request.getSession();
 				User user = new User(rs.getInt(1), rs.getString(2), rs.getString(3));
-				session.setAttribute("user",user);
-				
+				System.out.println(rs.getInt(1) + "\t" + rs.getString(2) + "\t" + rs.getString(3));
+				session.setAttribute("user", user);
+
 //				SessionTracking sessionTracking = new SessionTracking();
 //				sessionTracking.sessionTracking(rs.getString(2), session.getId(),
 //						new Date(session.getCreationTime()).toString(),
 //						new Date(session.getLastAccessedTime()).toString(), Page.WELCOME.toString());
 //				
-				RequestDispatcher rd = request.getRequestDispatcher("welcome.jsp");  
-		            rd.forward(request, response);  
+				RequestDispatcher rd = request.getRequestDispatcher("welcome.jsp");
+				rd.forward(request, response);
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
